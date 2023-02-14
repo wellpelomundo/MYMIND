@@ -4,6 +4,7 @@ Sistema para monitoramento da saúde mental pessoal.
 
 Projetado em python com django, sistema de cadastro simples e objetivo. 
 
+![mymind](https://user-images.githubusercontent.com/88757007/218866724-6a089902-384e-4ecc-b040-85cdcca4c9ba.jpg)
 
 # Funcionalidades do projeto
 
