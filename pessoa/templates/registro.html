@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block 'titulo' %}MY MIND - Registros {% endblock %}
+
+{% block 'conteudo' %}
+<ul class="nav justify-content-end">
+  <div class="nome">
+      <h5>Aqui estão seus registros,  {{usuario}}</h5>
+  </div>
+
+  <a href="{% url 'home' %}"><button type="button" class="bts btn btn-info btn-sm">Home</button></a>
+
+  <a href="{% url 'sair' %}"><button class="bts btn btn-danger btn-sm"><b>SAIR</b></button></a>
+
+</ul>
+
+<div class="container">
+  <img src="{% static 'pessoa/img/cerebro.png' %}" alt="" width="72" height="72"> 
+<h1 id="titulo">MY MIND</h1>
+</div>
+<div class="text-center logo">
+   <h3>Avaliação Diária</h3>
+  <hr>
+</div>
+<!-- Avaliação Diária -->
+ <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">Data</th>             
+              <th scope="col">Estado Mental</th>              
+            </tr>
+          </thead>
+          <tbody>
+            {% for avaliacoes in avaliacao %}
+              <tr>
+                <td>{{ avaliacoes.data }}</td>
+                <td>{{ avaliacoes.get_estado_mental_display }}</td>             
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+
+      <!-- Anotações -->
+<div class="text-center logo">
+  <h3>Anotações</h3>
+  <hr>
+</div>
+
+ <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">Data</th>            
+              <th scope="col">Acontecimento Negativo</th>
+              <th scope="col">Acontecimento Positivo</th>             
+            </tr>
+          </thead>
+          <tbody>
+            {% for registros in registro %}
+              <tr>
+                <td>{{ registros.data }}</td>
+                <td>{{ registros.acontecimento_negativo }}</td>
+                <td>{{ registros.acontecimento_positivo }}</td>            
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+
+<!-- Alertas -->
+<div class="text-center logo">
+    <h3>Alertas</h3>
+  <hr>
+</div>
+
+ <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">Data Inicial</th>
+              <th scope="col">Data Final</th>
+              <th scope="col">Alerta de Crise</th>              
+            </tr>
+          </thead>
+          <tbody>
+            {% for alertas in alerta %}
+              <tr>
+                <td>{{ alertas.data_acontecimento }}</td>
+                <td>{{ alertas.data_superacao }}</td>
+                <td>{{ alertas.get_alerta_crises_display }}</td>              
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block 'titulo' %}MY MIND - Login {% endblock %}
+
+{% block 'conteudo' %} 
+<div class="conatainer">
+    <div class="row">
+        <div class="col-md"></div>
+        <div class="col-md">
+            <div class="text-center logo">
+                <div class="container">
+                    <img src="{% static 'pessoa/img/cerebro.png' %}" alt="" width="72" height="72"> 
+                    <h1 id="titulo">MY MIND</h1>
+                </div>
+                <h1>Login</h1>
+                <hr>
+            </div>
+            {% if messages %}
+                <br>
+                {% for message in messages %}
+                    <div class="alert {{message.tags}}">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form action="{% url 'login' %}" method="POST">{% csrf_token %}
+             
+            <label>E-mail</label>
+            <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Seu e-mail..." required autofocus><br>
+            <label>Senha:</label>
+            <input type="password" class="form-control" placeholder="Digite sua senha..." name="senha">
+
+            <a href="{% url 'cadastro' %}" class="link-float">Cadastre-se</a><br><br>
+
+            <input type="submit" value="Login" class="btn btn-info btn-lg">                 
+
+        </form>
+        </div>
+        <div class="col-md"></div>
+    </div>
+</div>
+
+    
+</div>
+
+{% endblock %}

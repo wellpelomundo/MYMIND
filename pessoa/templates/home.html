@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block 'titulo' %}MY MIND {% endblock %}
+
+{% block 'conteudo' %} 
+    <ul class="nav justify-content-end">
+        <div class="nome">
+            <h5>Olá,  {{usuario}}</h5>
+        </div>
+
+        <a href="{% url 'registro' %}"><button type="button" class="bts btn btn-info btn-sm">Registros</button></a>
+
+        <a href="{% url 'sair' %}"><button class="bts btn btn-danger btn-sm"><b>SAIR</b></button></a>
+
+      </ul>
+
+        
+
+    <div class="container">
+        <img src="{% static 'pessoa/img/cerebro.png' %}" alt="" width="72" height="72"> 
+		<h1 id="titulo">MY MIND</h1>
+	</div>
+
+    <div class="center esp">
+        <a href="#"><button class="bts btn btn-danger">EMERGÊNCIA</button></a>        
+    </div>
+    
+    <div class="center">
+        <div class="row">
+
+            <div class="col-sm">
+                <button type="button" class="bt btn btn-secondary btn-lg" data-toggle="modal" data-target="#exampleModal">
+                    Avaliação Diária
+                  </button>                                
+            </div>
+
+            <div class="col-sm">
+                <button type="button" class="bt btn btn-warning btn-lg" data-toggle="modal" data-target="#exampleModal2">
+                    Anotações
+                  </button>
+            </div>
+
+            <div class="col-sm">
+                <button type="button" class="bt btn btn-danger btn-lg" data-toggle="modal" data-target="#exampleModal3">
+                    Alertas
+                  </button>
+            </div>
+
+            <div class="col-sm">
+                
+            </div>
+
+        </div>
+    </div>
+	</div>
+
+
+    <!-- Avaliação Diária -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Avaliação Diária</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 's_avaliacao' %}" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <label for="estado_mental">Selecione o seu estado mental atual:</label>
+                        <select class="form-control" id="estado_mental" name="estado_mental">
+                            {% for avaliacao in avaliacoes %}
+                            <option value="{{ avaliacao.0 }}">{{ avaliacao.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="modal-footer">              
+                        <input type="submit" value="SALVAR" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+        <!-- Anotações -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Anotações</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 's_anotacao' %}" method="POST">{% csrf_token %}
+                <div class="form-group">
+                    <label for="acontecimento_negativo">Acontecimento Negativo:</label>
+                    <textarea class="form-control" id="acontecimento_negativo"
+                        name="acontecimento_negativo"></textarea>
+                </div>
+    
+                <br>
+    
+                <div class="form-group">
+                    <label for="acontecimento_positivo">Acontecimento Positivo:</label>
+                    <textarea class="form-control" id="acontecimento_positivo"
+                        name="acontecimento_positivo"></textarea>
+                </div>
+    
+                <br>
+                <div class="modal-footer">            
+                    <input type="submit" value="SALVAR" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+        
+        </div>
+    </div>
+    </div>
+
+            <!-- Alertas -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Alertas</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 's_alerta' %}" method="POST">{% csrf_token %}
+                <span>Selecione o seu estado estado de crise:</span>
+            <select name="alerta_crises" class="form-select">
+                {% for alertas in alerta %}
+                    <option value="{{alertas.0}}">{{alertas.1}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            <span>Data do Acontecimento:</span>
+            <input type="date" class="form-control" name="data_acontecimento" placeholder="Quando começou...">
+            <br>
+            <span>Data da Superação:</span>
+            <input type="date" class="form-control" name="data_superacao" placeholder="Quando acabou...">
+            <div class="modal-footer">
+                <input type="submit" value="SALVAR" class="btn btn-primary">
+            </div>              
+            </form>
+        </div>
+       
+        </div>
+    </div>
+    </div>
+
+    <script>
+        // Obtém a data atual
+        var currentDate = new Date();
+        // Define a data mínima como 1990
+        currentDate.setFullYear(1990);
+        // Formata a data como yyyy-mm-dd
+        var minDate = currentDate.toISOString().slice(0,10);
+        // Obtém a data atual
+        var currentDate = new Date();
+        // Formata a data como yyyy-mm-dd
+        var maxDate = currentDate.toISOString().slice(0,10);
+        // Define as datas mínima e máxima nos elementos de entrada
+        document.querySelector("input[name='data_acontecimento']").min = minDate;
+        document.querySelector("input[name='data_acontecimento']").max = maxDate;
+        document.querySelector("input[name='data_superaçao']").min = minDate;
+        document.querySelector("input[name='data_superaçao']").max = maxDate;
+        </script>
+   
+
+  {% endblock %}
